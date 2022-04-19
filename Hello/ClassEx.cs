@@ -1,7 +1,113 @@
 ﻿using System;
 
+namespace Inheritance
+{
+    /*
+    class Base
+    {
+        protected string Name;
+
+        public Base(string Name)
+        {
+            this.Name = Name;
+            Console.WriteLine($"{this.Name}.Base()");
+        }
+
+        ~Base()
+        {
+            Console.WriteLine($"{this.Name}.~ Base()");
+        }
+
+        public void BaseMethod()
+        {
+            Console.WriteLine($"{Name}.BaseMethode()");
+        }
+    }
+
+    class Derived : Base
+    {
+        public Derived(string Name) : base(Name)
+        {
+            Console.WriteLine($"{this.Name}.Dervied()");
+        }
+
+        ~Derived()
+        {
+            Console.WriteLine($"{this.Name}.~Dervied()");
+        }
+
+        public void DerivedMethod()
+        {
+            Console.WriteLine($"{Name}.DerviedMethod()");
+        }
+    }
+
+    class MainApp
+    {
+        static void Main(string[] args)
+        {
+            Base a = new Base("a");
+            a.BaseMethod();
+
+            Derived b = new Derived("b");
+            b.BaseMethod();
+            b.DerivedMethod();
+        }
+    }
+    */
+}
+namespace AccessModifier
+{
+    /*
+    class WaterHeater
+    {
+        protected int temperature;
+
+        public void SetTemperature(int temperature)
+        {
+            if (temperature < -5 || temperature > 42)
+            {
+                throw new Exception("Out of temperture range");
+            }
+
+            this.temperature = temperature;
+        }
+
+        internal void TurnOnWater()
+        {
+            Console.WriteLine("[Turn on water]");
+            Console.WriteLine($"Temperture: {temperature}");
+        }
+    }
+
+    class MainApp
+    {
+        static void Main(string[] args)
+        {
+            try
+            {
+                WaterHeater heater = new WaterHeater();
+                heater.SetTemperature(20);
+                heater.TurnOnWater();
+
+                heater.SetTemperature(-2);
+                heater.TurnOnWater();
+
+                heater.SetTemperature(50);
+                heater.TurnOnWater();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+    }
+    */
+}
 namespace ThisConstructor
 {
+    /*
     class MyClass
     {
         int a, b, c;
@@ -45,6 +151,7 @@ namespace ThisConstructor
             c.PrintField();
         }
     }
+    */
 }
 namespace This
 {
