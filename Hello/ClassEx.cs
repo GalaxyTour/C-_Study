@@ -1,8 +1,318 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
+#region Chapter08
+namespace Interface
+{
+    interface ILoger
+    {
+        void WriteLog(string message);
+    }
+
+    class ConsoleLoger : ILoger
+    {
+        public void WriteLog(string message)
+        {
+            Console.WriteLine("[{0}] {1}", DateTime.Now.ToLocalTime(), message);
+        }
+    }
+
+    class FileLogger : ILoger
+    {
+        private StreamWriter writer;
+
+        public FileLogger(string path)
+        {
+            writer = File.CreateText(path);
+            writer.AutoFlush = true;
+        }
+
+        public void WriteLog(string message)
+        {
+            Console.WriteLine("[{0}] {1}", DateTime.Now.ToLocalTime(), message);
+        }
+    }
+
+    class ClimateMonitor
+    {
+        private ILoger logger;
+        public ClimateMonitor(ILoger loger)
+        {
+            this.logger = loger;
+        }
+
+        public void start()
+        {
+            while (true)
+            {
+                Console.Write("온도를 입력해주세요.: ");
+                string temperture = Console.ReadLine();
+                if (temperture == "")
+                    break;
+
+                logger.WriteLog("현재 온도: " + temperture);
+
+            }
+        }
+    }
+
+    class MainApp
+    {
+        static void Main()
+        {
+            ClimateMonitor monitor = new ClimateMonitor(new FileLogger("MyLog.txt"));
+
+            monitor.start();
+        }
+    }
+}
+#endregion
+
+#region Chapter07
+namespace ReadonlyMethod
+    {
+    /*
+        struct ACSetting
+        {
+            public double currntInCelsius;  // 현재온도(섭씨)
+            public double target;           // 희망온도
+
+            public readonly double GetFahrenheit()
+            {
+                return currntInCelsius * 1.8 + 32;
+            }
+        }
+        class MainApp
+        {
+            static void Main()
+            {
+                ACSetting acs;
+                acs.currntInCelsius = 25;
+                acs.target = 25;
+
+                Console.WriteLine($"{acs.GetFahrenheit()}");
+                Console.WriteLine($"{acs.target}");
+            }
+        }
+    */
+    }
+namespace PosisionalPattern
+{
+/*
+    class MainApp
+    {
+        private static double GetDiscountRate(object Client)
+        {
+            return Client switch
+            {
+                ("학생", int n) when n < 18 => 0.2,
+                ("학생", _) => 0.1,
+                ("일반", int n) when n < 18 => 0.1,
+                ("일반", _) => 0.05,
+                _ => 0
+            };
+        }
+
+        static void Main()
+        {
+            var yongjun = ("학생", 15);
+            var taesung = ("일반", 17);
+            var sunghae = ("학생", 25);
+            var jaehee = ("일반", 27);
+            var unkonwn = ("", "");
+
+            Console.WriteLine($"YongJun{yongjun} : {GetDiscountRate(yongjun)}");
+            Console.WriteLine($"TaeSung{taesung} : {GetDiscountRate(taesung)}");
+            Console.WriteLine($"SungHae{sunghae} : {GetDiscountRate(sunghae)}");
+            Console.WriteLine($"JaeHee {jaehee}  : {GetDiscountRate(jaehee)}");
+            Console.WriteLine($"Unkonwn{unkonwn} : {GetDiscountRate(unkonwn)}");
+
+        }
+    }
+*/
+}
+namespace Tuple
+{
+/*
+    class MainApp
+    {
+        static void Main()
+        {
+            var a = ("정태성", 96);
+            Console.WriteLine($"{a.Item1}, {a.Item2}");
+            //Console.WriteLine(a);
+
+            var b = (Name: "김용준", Birth: 95);
+            Console.WriteLine($"{b.Name}, {b.Birth}");
+            //Console.WriteLine($"{b.Item1}, {b.Item2}");
+
+            var (cname, cbirth) = b;
+            Console.WriteLine($"{cname}, {cbirth}");
+
+            var (cname2, cbirth2) = ("정태성", 96);
+            Console.WriteLine($"{cname2}, {cbirth2}");
+
+            b = a;
+            Console.WriteLine($"{b.Name}, {b.Birth}");
+        }
+    }
+*/
+}
+namespace ReadOnlyStructure
+{
+/*
+    readonly struct RGBColor
+    {
+        public readonly byte R, G, B;
+
+        public RGBColor(byte r, byte g, byte b)
+        {
+            R = r;
+            G = g;
+            B = b;
+        }
+    }
+
+    class MainApp
+    {
+        static void Main()
+        {
+            RGBColor rgb = new RGBColor(255, 0, 0);
+        }
+    }
+*/
+}
+namespace Structure
+{
+/*
+    struct Point3D
+    {
+        public int X, Y, Z;
+
+        public Point3D(int X, int Y, int Z)
+        {
+            this.X = X;
+            this.Y = Y;
+            this.Z = Z;
+        }
+
+        public override string ToString()
+        {
+            return string.Format($"{X}, {Y}, {Z}");
+        }
+
+    }
+
+    class MainApp
+    {
+        static void Main(string[] args)
+        {
+            Point3D p3d1;
+            p3d1.X = 10;
+            p3d1.Y = 20;
+            p3d1.Z = 40;
+
+            Console.WriteLine($"p3d1: {p3d1.ToString()}");
+
+            Point3D p3d2 = new Point3D(100, 200, 400);
+            Point3D p3d3 = p3d2;    //DeppCopy
+            p3d3.Z = 800;
+
+            Console.WriteLine($"p3d2: {p3d2.ToString()}");
+            Console.WriteLine($"p3d2: {p3d3.X}, {p3d3.Y}, {p3d3.Z}");
+            Console.WriteLine(p3d2);
+        }
+    }
+*/
+}
+namespace MyExtension
+{
+    /*
+    public static class IntegerExtension
+    {
+        public static int Square(this int myInt)
+        {
+            return myInt * myInt;
+        }
+
+        public static int Power(this int myInt, int exponent)
+        {
+            int result = myInt;
+            for(int i = 1; i < exponent; i++)
+                result *= myInt;
+
+            return result;
+        }
+    }
+
+    public static class StringExtension
+    {
+        public static string Append(this string myString, string appendString)
+        {
+            return myString + appendString;
+        }
+    }
+
+    class MainApp
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine($"3^2 = {3.Square()}");
+            Console.WriteLine($"3^4 = {3.Power(4)}");
+            Console.WriteLine($"2^10 = {2.Power(10)}");
+
+            string testText = "Kim";
+            Console.WriteLine(testText.Append(", YongJun"));
+            Console.WriteLine("123".Append("456"));
+        }
+    }
+    */
+}
+namespace PartialClass
+{
+    /*
+    partial class MyPartialClass
+    {
+        public void Method1()
+        {
+            Console.WriteLine("Method1");
+        }
+        public void Method2()
+        {
+            Console.WriteLine("Method2");
+        }
+    }
+
+    partial class MyPartialClass
+    {
+        public void Method3()
+        {
+            Console.WriteLine("Method3");
+        }
+        public void Method4()
+        {
+            Console.WriteLine("Method4");
+        }
+    }
+
+    class MainApp
+    {
+        static void Main(string[] args)
+        {
+            MyPartialClass objPartialClass = new MyPartialClass();
+
+            objPartialClass.Method1();
+            objPartialClass.Method2();
+            objPartialClass.Method3();
+            objPartialClass.Method4();
+        }
+    }
+    */
+}
 namespace NestedClass
 {
+    /*
     class Configuration
     {
         List<ItemValue> listConfig = new List<ItemValue>();
@@ -76,6 +386,7 @@ namespace NestedClass
             Console.WriteLine(config.GetConfig("Version"));
         }
     }
+    */
 }
 namespace MethodHiding
 {
@@ -556,3 +867,4 @@ namespace BasicClass
     */
     #endregion
 }
+#endregion
