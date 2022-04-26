@@ -3,8 +3,85 @@ using System.Collections.Generic;
 using System.IO;
 
 #region Chapter08
+
+namespace MultiInterfaceInheritance
+{
+    interface IRunnable
+    { void Run(); }
+
+    interface IFlyable
+    { void Fly(); }
+
+    class FlyingCar : IRunnable, IFlyable
+    {
+        public void Run()
+        {
+            Console.WriteLine("Run?!");
+        }
+
+        public void Fly()
+        {
+            Console.WriteLine("Fly!!");
+        }
+    }
+
+    class MainApp
+    {
+        static void Main()
+        {
+            FlyingCar car = new FlyingCar();
+            car.Run();
+            car.Fly();
+
+            IRunnable runnable = car as IRunnable;
+            runnable.Run();
+
+            IFlyable flyable = car as IFlyable;
+            flyable.Fly();
+        }
+    }
+}
+namespace DerivedInterface
+{
+/*
+    interface ILogger
+    {
+        void WriteLog(string message);
+    }
+
+    interface IFromattableLogger : ILogger
+    {
+        void WriteLog(string format, params Object[] args);
+    }
+
+    class ConsoleLogger2 : IFromattableLogger
+    {
+        public void WriteLog(string message)
+        {
+            Console.WriteLine("{0} {1}", DateTime.Now.ToLocalTime(), message);
+
+        }
+
+        public void WriteLog(string format, params Object[] args)
+        {
+            string message = string.Format(format, args);
+            Console.WriteLine("{0} {1}", DateTime.Now.ToLocalTime(), message);
+        }
+    }
+    class MainApp
+    {
+        static void Main()
+        {
+            IFromattableLogger logger = new ConsoleLogger2();
+            logger.WriteLog("Test Log");
+            logger.WriteLog("{0} + {1} = {2}", 1, 1, 2);
+        }
+    }
+*/
+}
 namespace Interface
 {
+/*
     interface ILoger
     {
         void WriteLog(string message);
@@ -12,9 +89,10 @@ namespace Interface
 
     class ConsoleLoger : ILoger
     {
+
         public void WriteLog(string message)
         {
-            Console.WriteLine("[{0}] {1}", DateTime.Now.ToLocalTime(), message);
+            Console.WriteLine("Console Message: [{0}] {1}", DateTime.Now.ToLocalTime(), message);
         }
     }
 
@@ -30,7 +108,7 @@ namespace Interface
 
         public void WriteLog(string message)
         {
-            Console.WriteLine("[{0}] {1}", DateTime.Now.ToLocalTime(), message);
+            Console.WriteLine("Console[File] Message[{0}] {1}", DateTime.Now.ToLocalTime(), message);
         }
     }
 
@@ -62,11 +140,15 @@ namespace Interface
         static void Main()
         {
             ClimateMonitor monitor = new ClimateMonitor(new FileLogger("MyLog.txt"));
+            ClimateMonitor monitorConsole = new ClimateMonitor(new ConsoleLoger());
 
             monitor.start();
+            monitorConsole.start();
         }
     }
+*/
 }
+
 #endregion
 
 #region Chapter07
